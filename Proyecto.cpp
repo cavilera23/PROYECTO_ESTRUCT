@@ -1,13 +1,19 @@
 #include <iostream>
-#include <stdlib.h>
-#include <fstream>
-#include "proyect.h"
+#include <stdlib.h> // Para new y delete
+#include <fstream>  // Para trabajar con archivos
+#include <cstdlib>  // Para la función rand()
+#include <ctime>    // Para la función time()
+#include <string>
+#include "proyect.h" // Funciones y estructuras
 
 using namespace std;
 
 void AgregarUser_Song()
 {
     int opcion;
+    srand(time(0));
+    Canciones *cancion = nullptr;
+    Usuarios *usuario = nullptr;
     cout << "1. Agregar Usuario\n";
     cout << "2. Agregar Cancion\n";
     cout << separacion;
@@ -19,11 +25,13 @@ void AgregarUser_Song()
     switch (opcion)
     {
     case 1:
+        usuario = new Usuarios;
+        ingresarDatosUsuario(usuario);
         cout << "Agregando Usuario...\n";
+        system("cls");
         break;
     case 2:
-        Canciones *cancion = new Canciones;
-        cancion = NULL;
+        cancion = new Canciones;
         ingresarDatosCancion(cancion);
         cout << "\nAgregando Cancion...\n";
         system("cls");

@@ -45,13 +45,18 @@ void ingresarDatosCancion(Canciones *&cancion)
     cout << "Cancion: " << cancion->identificador << "\n"; // "Cancion: 123\n
     fflush(stdin);
     cout << "Ingrese el nombre de la cancion: ";
-    cin >> cancion->nombre_cancion;
+    cin.ignore('\n');
+    getline(cin, cancion->nombre_cancion);
+    fflush(stdin);
     cout << "Ingrese el nombre del artista: ";
-    cin >> cancion->artista;
+    getline(cin, cancion->artista);
+    fflush(stdin);
     cout << "Ingrese el genero de la cancion: ";
-    cin >> cancion->genero;
+    getline(cin, cancion->genero);
+    fflush(stdin);
     cout << "Ingrese el anio de la cancion: ";
     cin >> cancion->anio;
+    fflush(stdin);
     nuevo = cancion;
     nuevo->siguiente = NULL;
     cancion = nuevo;
@@ -69,19 +74,25 @@ void ingresarDatosCancion(Canciones *&cancion)
 void ingresarDatosUsuario(Usuarios *usuario)
 {
     Usuarios *nuevo;
-    usuario->identificador_usuario = rand() % 1000 + 1;
+    usuario->identificador_usuario = (rand() % 1000000) + 100001;
     cout << "Usuario: " << usuario->identificador_usuario << "\n"; // "Usuario: 123\n
     fflush(stdin);
     cout << "Ingrese el nombre del usuario: ";
-    cin >> usuario->nombre_usuario;
+    cin.ignore();
+    getline(cin, usuario->nombre_usuario);
+    fflush(stdin);
     cout << "Ingrese el correo del usuario: ";
-    cin >> usuario->correo;
+    getline(cin, usuario->correo);
+    fflush(stdin);
     cout << "Ingrese la contrasenia del usuario: ";
-    cin >> usuario->contrasena;
+    getline(cin, usuario->contrasena);
+    fflush(stdin);
     cout << "Ingrese la fecha de nacimiento del usuario (dd/mm/aaaa): ";
-    cin >> usuario->fecha_nacimiento;
+    getline(cin, usuario->fecha_nacimiento);
+    fflush(stdin);
     cout << "Ingrese el pais del usuario: ";
-    cin >> usuario->pais;
+    getline(cin, usuario->pais);
+    fflush(stdin);
     nuevo = usuario;
     nuevo->siguiente = NULL;
     usuario = nuevo;

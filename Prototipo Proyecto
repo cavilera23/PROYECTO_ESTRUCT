@@ -1,0 +1,159 @@
+// #include
+#include <string>
+#include <cstdlib>
+#include "funcionescodigo.h"
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+// declaracion de la musica y los usuarios.
+Cancion *sountrack = NULL;
+usuarios *usuariosApp = NULL;
+int idUsuarios=200000;
+int idMusica=100000;
+// cargar los archivos de musica.
+void cargarCanciones(int &idMusicas){
+    string linea;
+    ifstream archmusic("canlist.txt");
+    // Cancion *sountrack= NULL;
+    if (!archmusic.is_open()) {
+        cout << "Error al abrir el archivo." << endl;
+        return;
+    }
+    while (getline(archmusic, linea)) {
+        size_t pos_coma1 = linea.find(';');
+        size_t pos_coma2 = linea.find(';', pos_coma1 + 1);
+        size_t pos_coma3 = linea.find(';', pos_coma2 + 1);
+        size_t pos_coma4 = linea.find(';', pos_coma3 + 1);
+        int id = stoi(linea.substr(0, pos_coma1));
+        string nombreCancion = linea.substr(pos_coma1 + 1, pos_coma2 - pos_coma1 - 1);
+        string nombreArtista = linea.substr(pos_coma2 + 1, pos_coma3 - pos_coma2 - 1);
+        string genero = linea.substr(pos_coma3 + 1, pos_coma4 - pos_coma3 - 1);
+        int anioSalida = stoi(linea.substr(pos_coma4 + 1));
+        agregarMusicaTxt(&sountrack,idMusicas, id, nombreCancion, nombreArtista, genero, anioSalida);
+    }
+    
+    archmusic.close();
+}
+// cargar archivos de los usuarios.
+void cargarUsuarios(int &idUsuarioss){
+    string linea;
+    ifstream archUser("userlist.txt");
+    //   usuarios * usuariosApp = NULL;
+    if (!archUser.is_open()) {
+        cout << "Error al abrir el archivo." << endl;
+        return;
+    }
+    while (getline(archUser, linea)) {
+        size_t pos_coma1 = linea.find(';');
+        size_t pos_coma2 = linea.find(';', pos_coma1 + 1);
+        size_t pos_coma3 = linea.find(';', pos_coma2 + 1);
+        size_t pos_coma4 = linea.find(';', pos_coma3 + 1);
+        size_t pos_coma5 = linea.find(';', pos_coma4 + 1);
+        int id = stoi(linea.substr(0, pos_coma1));
+        string nombre = linea.substr(pos_coma1 + 1, pos_coma2 - pos_coma1 - 1);
+        string correo = linea.substr(pos_coma2 + 1, pos_coma3 - pos_coma2 - 1);
+        int edad = stoi(linea.substr(pos_coma3 + 1, pos_coma4 - pos_coma3 - 1));
+        string contra = linea.substr(pos_coma4 + 1, pos_coma5 - pos_coma4 - 1);
+        string pais = linea.substr(pos_coma5 + 1);
+        agregarUsuariosTxt(&usuariosApp,idUsuarioss, id, edad, nombre, pais, contra, correo);
+    }
+    archUser.close();
+}
+
+int main(){
+    cargarCanciones(idMusica);
+    cargarUsuarios(idUsuarios);
+    int opcion;
+    while( !( opcion == 4 ) ){
+    cout << "UCABspoty" << endl;
+    // Integrantes
+    cout << " realizado por los alumnos: ";
+    cout << "Jesus Antonio Suarez ";
+    cout << "Christian Vilera ";
+    cout << "Luis Delgado ";
+    cout << " \n";
+    // menu de opciones
+    cout << "MENU sountrackCIPAL" << endl;
+    cout << "1. Usuarios" << endl;
+    cout << "2. Canciones" << endl;
+    cout << "3. Salir del sistema" << endl;
+    cout<< "\n Ingrese Una Opcion: ";
+    cin>> opcion;
+    if(opcion == 1){
+         
+            int opcionUsuarios;
+    while(opcionUsuarios !=4){
+        // menu de lo referente a los usuarios.
+        cout << "usuarios" << endl;
+        cout << "1. Agregar Usuarios"  << endl;
+        cout << "2. Eliminar Usuarios" << endl;
+        cout << "3. mostrar usuarios"  << endl;
+        cout << "4. Volver al menu anterior" << endl;
+        cout<< "Ingrese una opcion: ";
+        cin >> opcionUsuarios;
+        if(opcionUsuarios == 1){
+            system("cls");
+                //agregar nuevos usuarios.
+                agregarUsuario(&usuariosApp,idUsuarios);
+        }
+        if(opcionUsuarios == 2){
+            system("cls");
+            int ides;
+            // eliminar por id de usuario.
+            cout << "ingrese id: ";
+            cin >> ides;
+            borrarUsuarios(&usuariosApp,ides);
+        }
+        if(opcionUsuarios == 3){
+            system("cls");
+            // salir del menu de usuarios.
+            imprimirUsuarios(usuariosApp);
+        }
+        } 
+    }
+    if(opcion == 2){
+        // musica, menus, y opciones con musica.
+        int opcionCanciones;
+     while( !(opcionCanciones == 3 ) ){
+        cout << "musica" << endl;
+        cout << "1. Agregar musica"  << endl;
+        cout << "2. Eliminar musica" << endl;
+        cout << "3. mostrar musica"  << endl;
+        cout << "4. Volver al menu anterior" << endl;
+        cout<< "Ingrese una opcion: ";
+        cin >> opcionCanciones;
+        cin.ignore();
+        if(opcionCanciones == 1){
+            system("cls");
+                //agregar cancion elegida por el usuario.
+                agregarmusica(&sountrack,idMusica);
+        }
+        if (opcionCanciones == 2){
+            system("cls");
+            // eliminar cancion elegida por el usuario.
+            if(sountrack == NULL){
+                cout<< "La lista de canciones esta vacia \n";
+            }else{
+                int idEliminar;
+                cout<< "Ingrese el ID de la cancion a eliminar: ";
+                cin >> idEliminar;
+                cin.ignore();
+                borrarCancion(idEliminar,&sountrack);
+            }
+        }
+        if (opcionCanciones == 3){
+                system("cls");
+                // mostrar las canciones
+                imprimirCanciones(sountrack);
+                break;
+        }
+
+    }
+    }        
+
+    }
+
+
+    return 0;
+}

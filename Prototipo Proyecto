@@ -146,7 +146,6 @@ int main(){
                 system("cls");
                 // mostrar las canciones
                 imprimirCanciones(sountrack);
-                break;
         }
 
     }

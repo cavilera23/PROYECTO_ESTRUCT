@@ -41,7 +41,7 @@ string separacion = "---------------------------\n";
 void ingresarDatosCancion(Canciones *&cancion)
 {
     Canciones *nuevo;
-    cancion->identificador = rand() % 1000 + 1;
+    cancion->identificador = (rand() % 1000000) + 100001;
     cout << "Cancion: " << cancion->identificador << "\n"; // "Cancion: 123\n
     fflush(stdin);
     cout << "Ingrese el nombre de la cancion: ";
@@ -55,6 +55,15 @@ void ingresarDatosCancion(Canciones *&cancion)
     nuevo = cancion;
     nuevo->siguiente = NULL;
     cancion = nuevo;
+
+    ofstream archivoCanciones;
+    archivoCanciones.open("canciones.txt", ios::app);
+    archivoCanciones << cancion->identificador << "\n";
+    archivoCanciones << cancion->nombre_cancion << "\n";
+    archivoCanciones << cancion->artista << "\n";
+    archivoCanciones << cancion->genero << "\n";
+    archivoCanciones << cancion->anio << "\n";
+    archivoCanciones.close();
 }
 
 void ingresarDatosUsuario(Usuarios *usuario)
@@ -69,11 +78,21 @@ void ingresarDatosUsuario(Usuarios *usuario)
     cin >> usuario->correo;
     cout << "Ingrese la contrasenia del usuario: ";
     cin >> usuario->contrasena;
-    cout << "Ingrese la fecha de nacimiento del usuario: ";
+    cout << "Ingrese la fecha de nacimiento del usuario (dd/mm/aaaa): ";
     cin >> usuario->fecha_nacimiento;
     cout << "Ingrese el pais del usuario: ";
     cin >> usuario->pais;
     nuevo = usuario;
     nuevo->siguiente = NULL;
     usuario = nuevo;
+
+    ofstream archivoUsuarios;
+    archivoUsuarios.open("usuarios.txt", ios::app);
+    archivoUsuarios << usuario->identificador_usuario << "\n";
+    archivoUsuarios << usuario->nombre_usuario << "\n";
+    archivoUsuarios << usuario->correo << "\n";
+    archivoUsuarios << usuario->contrasena << "\n";
+    archivoUsuarios << usuario->fecha_nacimiento << "\n";
+    archivoUsuarios << usuario->pais << "\n";
+    archivoUsuarios.close();
 }
